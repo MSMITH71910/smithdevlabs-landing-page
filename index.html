@@ -1092,8 +1092,19 @@
 
         function handleSubmit(e) {
             e.preventDefault();
-            document.getElementById('lead-form').style.display = 'none';
-            document.getElementById('success-msg').style.display = 'block';
+            var form = document.getElementById('lead-form');
+            fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(new FormData(form)).toString()
+            })
+            .then(function() {
+                form.style.display = 'none';
+                document.getElementById('success-msg').style.display = 'block';
+            })
+            .catch(function() {
+                alert('Something went wrong — please email us directly at msmith@smithdevlabs.com');
+            });
         }
 
         document.querySelectorAll('a[href^="#"]').forEach(function(a) {
